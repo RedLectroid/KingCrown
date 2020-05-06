@@ -1,6 +1,6 @@
 # KingCrown
 
-KingCrown is a tool to quickly deploy KingPhisher to a  server for phishing. It will automagically generate DKIM keys and SSL certificates.  It also has an option to quickly change the domain if your campaign was burned.
+KingCrown is a tool to quickly download, install and configure KingPhisher to a server for phishing. It will automagically generate DKIM keys and SSL certificates.  It also has an option to quickly change the domain if your campaign was burned.
 
 ### Requirements
 
