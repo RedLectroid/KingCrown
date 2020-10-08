@@ -35,6 +35,7 @@ def bannerMain():
 	print(banner)
 
 def installKP(installOption,path):
+	os.chdir(path)
 	if installOption == "client":
 		print(starString)
 		print("Installing the client\n\n")
