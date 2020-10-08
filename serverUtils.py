@@ -11,15 +11,26 @@ import fileinput
 #Global scope
 starString = "****************************************************************************************************************************"
 
-def ServerInstall():
+def ServerInstall(domain,path,port):
 	
 	done = False
 	looper = False
-	port = ""
-	domain = ""
-	path = ""
 	email = ""
 	
+	if domain != "":
+		done = True
+		looper = True
+		coreUtils.DownloadKP(path)
+		time.sleep(10)
+		coreUtils.installKP("server",path)
+		dkimSetup(path,domain)
+		certBotSetup(domain,email)
+		server_ConfigSetup(domain,path,port)
+		postfixSetup(domain)
+		setupGenericFile(domain)
+		mainCFsetup(domain)
+		subprocess.call(["service","king-phisher","start"])
+
 	while looper != True:
 
 		os.system('clear')
@@ -33,7 +44,7 @@ def ServerInstall():
 		print("* 1. Domain Name                                               *")
 		print("* 2. Install Path for KingPhisher                              *")
 		print("* 3. KingPhisher Web Server Port                               *")
-		print("* 4. Email to use for certbot (doesn't need to be real)        *")
+		print("*                                                              *")
 		print("*                                                              *")
 		print("*                                                              *")
 		print("****************************************************************")
@@ -44,8 +55,7 @@ def ServerInstall():
 		menu['1'] = " Set Domain Name"
 		menu['2'] = " Install Path for KingPhisher"
 		menu['3'] = " Set KingPhisher Web Server Port"
-		menu['4'] = " Set Email for Certbot"
-		menu['5'] = " Begin KingPhisher Server installation"
+		menu['4'] = " Begin KingPhisher Server installation"
 		menu['42'] = "Return to menu"
 		menu['99'] = "Exit"
 
@@ -61,9 +71,7 @@ def ServerInstall():
 			print("KingPhisher install path set to ->  " + path)
 		if port != "":
 			print("KingPhisher Web Server port set to ->  " + port)
-		if email != "":
-			print("Email for certbot set to ->  " + email)
-		if domain != "" and path != "" and port != "" and email != "":
+		if domain != "" and path != "" and port != "":
 			print("\n***All options are set and you are ready to install***")
 
 		selection = input("\nPlease Select: ")
@@ -75,8 +83,6 @@ def ServerInstall():
 		elif selection == '3':
 			port = input("Please enter the port for the KingPhisher Web Server:  ")
 		elif selection == '4':
-			email = input("Please enter the email to be used for certbot (Does not have to be real):  ")
-		elif selection == '5':
 			if done == False:
 				print("\nYou have not set all the options")
 				input("Press Enter to return to the menu and set all the options")
@@ -92,13 +98,14 @@ def ServerInstall():
 		else:
 			ErrorMessage()
 
-		if domain != "" and path != "" and port != "" and email != "":
+		if domain != "" and path != "" and port != "":
 			done = True
 
 		if done == True and looper == True:
 			print("\n***Please confirm you have port 80 open on the firewall for certbot to setup the SSL certificate***\n")
 			print("***Please confirm you have updated the DNS record for " + domain + " to point to the IP address of this server***\n")
 			input("Press Enter to begin the installation")
+
 			coreUtils.DownloadKP(path)
 			time.sleep(10)
 			coreUtils.installKP("server",path)
@@ -215,7 +222,7 @@ def certBotSetup(domain,email):
 	time.sleep(5)
 	print(starString + "\n\n" + "Running certbot \n\n")
 	time.sleep(2)
-	subprocess.call(["certbot","certonly","--standalone","--preferred-challenges","http","-d",str(domain),"-n","--agree-tos","--email",str(email)])
+	subprocess.call(["certbot","certonly","--standalone","--preferred-challenges","http","-d",str(domain),"-n","--agree-tos","--register-unsafely-without-email"])
 	time.sleep(5)
 
 def server_ConfigSetup(domain,path,port):
@@ -298,6 +305,3 @@ def postfixSetup(domain):
 		in_file.write("policyd-spf  unix  -       n       n       -       0       spawn\n")
 		in_file.write("    user=policyd-spf argv=/usr/bin/policyd-spf\n")
 	in_file.close()
-
-
-
