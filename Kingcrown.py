@@ -22,6 +22,10 @@ def mainMenu():
 
 	checkPermissions()
 
+	port = ""
+	domain = ""
+	path = ""
+
 	menu = {}
 	menu['0']="Tool Information"
 	menu['1']="Install and configure KingPhisher server"
@@ -37,7 +41,7 @@ def mainMenu():
 
 		selection=input("\nPlease Select: ") 
 		if selection =='1': 
-			serverUtils.ServerInstall() 
+			serverUtils.ServerInstall(domain,path,port)
 		elif selection == '2':
 			domainUtils.domainChange()
 		elif selection == '0':
@@ -49,4 +53,18 @@ def mainMenu():
 
 
 if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+parser.add_argument("-d","--domain", help="The domain to assign an SSL cert to with certbot")
+parser.add_argument("-i","--path", help="The path to download and install KingPhisher to")
+parser.add_argument("-p","--port", help="Webserver port for KingPhisher")
+args = parser.parse_args()
+
+domain = args.domain
+path = args.path
+port = args.port
+
+if args.domain != None:
+	print("Silent install")
+	serverUtils.ServerInstall(domain,path,port)
+else:
 	mainMenu()
