@@ -34,28 +34,6 @@ def bannerMain():
 	banner +="**********************************************************\n"
 	print(banner)
 
-
-def installKP(installOption,path):
-	if installOption == "client":
-		print(starString)
-		print("Installing the client\n\n")
-		subprocess.call([path+"/tools/install.sh","-y","--skip-server"])
-		print(starString)
-	elif installOption == "server":
-		time.sleep(10)
-		print(starString)
-		print("Installing the server\n\n")
-		print(starString)
-		subprocess.call([path+"/tools/install.sh","-y","--skip-client"])
-	
-def DownloadKP(path):
-	if not os.path.exists(path):
-		os.makedirs(path)
-		
-	print(starString + "\n\n" + "Downloading KingPhisher to " + path + "\n\n")
-	subprocess.call(["git","clone","https://github.com/securestate/king-phisher.git",path + "/"])
-
-
 def installKP(installOption,path):
 	if installOption == "client":
 		print(starString)
