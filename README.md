@@ -15,6 +15,7 @@ KingCrown is a tool to quickly download, install and configure KingPhisher to a 
 ### Use
 1. Place all 4 .py files in the same directory and use Python 3 as sudo to run KingCrown.py
 2. Follow along with the menus.
+  2a. Alternatively you can use command line arguments for automation purposes. Ex. sudo python3 Kingcrown.py -d domainname.com -p 443 -i /opt/KingPhisher
 
 ## Disclaimer
 Don't do anything illegal with this.
