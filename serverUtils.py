@@ -30,6 +30,7 @@ def ServerInstall(domain,path,port):
 		setupGenericFile(domain)
 		mainCFsetup(domain)
 		subprocess.call(["service","king-phisher","start"])
+		printDKIM(domain)
 
 	while looper != True:
 
